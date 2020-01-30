@@ -10,33 +10,41 @@
 
 
 function nameValidate() {
-    const namefield = document.querySelectorAll(".input-field");
-    const input = document.querySelector("#name");
-    if (input.length >= 2) {
-        var message = 'Valid';
+    const inputBoxes = document.querySelectorAll("input");
+    for (let box of inputBoxes) {
+        parent = box.parentElement;
+        if (box.value.length >= 2) {
 
-    } else { message = 'Invalid'; }
+            if (!parent.classList.contains('input-valid')) {
+                parent.classList.add('input-valid')
+            }
+        } else {
+            if (!parent.classList.contains('input-invalid')) {
+                parent.classList.add('input-invalid')
+            }
+
+
+        }
+    }
 }
-return message
-}
 
-nameValidate(namefield)
+nameValidate()
 
-<
-div class = "input-field input-valid" >
-    <
-    label > Valid < /label> <
-input type = "text" >
-    <
-    /div>
+// add listener 
+// div class = "input-field input-valid" >
+//     <
+//     label > Valid < /label> <
+// input type = "text" >
+//     <
+//     /div>
 
-<
-div class = "input-field input-invalid" >
-    <
-    label > Invalid < /label> <
-input type = "text" >
-    <
-    /div>
+// <
+// div class = "input-field input-invalid" >
+//     <
+//     label > Invalid < /label> <
+// input type = "text" >
+//     <
+//     /div>
 
 // validate various fields. what can we validate by group? Above could probably apply to all fields. If empty
 
