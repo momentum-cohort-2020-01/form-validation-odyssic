@@ -19,24 +19,27 @@ function nameValidate() {
     // let upperCaseName = wholeName.value.toUppercase();
 
     if (wholeName.value.length > 0 && wholeName.value.match(letters)) {
-        wholeName.parentElement.classList.add("input-valid");
-
-        // return upperCaseName;
-        //
-    } else if (wholeName.value == "" || wholeName.value.match(numbers)) {
         if (wholeName.parentElement.classList.contains(".input-invalid")) {
-            return False;
-        } else {
+            wholeName.parentElement.classList.remove(".input-invalid");
+            wholeName.parentElement.classList.add("input-valid");
+        } else if (!wholeName.parentElement.classList.contains(".input-invalid")) {
+            wholeName.parentElement.classList.add("input-valid");
+        }
+    } else if (wholeName.value == "" || wholeName.value.match(numbers)) {
+        if (!wholeName.parentElement.classList.contains(".input-invalid")) {
             wholeName.parentElement.classList.add("input-invalid");
             let myNewDiv = wholeName.after("* Valid Name Required");
+            return myNewDiv;
+        } else {
+            return False;
         }
-        // wholeName.parentElement.classList.remove("input-invalid");
-        // wholeName.parentElement.classList.add("input-invalid");
-        // let myNewDiv = wholeName.after("* Valid Name Required");
-        //
-        // alert("Please enter a valid name!");
     }
 }
+// wholeName.parentElement.classList.remove(".input-invalid");
+// wholeName.parentElement.classList.add("input-invalid");
+// let myNewDiv = wholeName.after("* Valid Name Required");
+//
+// alert("Please enter a valid name!");
 
 // function carYearValidate() {
 //     const carYear = document.querySelector("#car-year");
@@ -93,4 +96,3 @@ function nameValidate() {
 //         parentDiv.classList.remove("input-valid");
 //         parentDiv.classList.add("input-invalid");
 //     }
-// }
