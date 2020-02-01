@@ -16,25 +16,26 @@ const numbers = /^[0-9]+$/;
 
 function nameValidate() {
     const wholeName = document.querySelector("#name");
+    const wholeNameParent = wholeName.parentElement;
     // let upperCaseName = wholeName.value.toUppercase();
 
     if (wholeName.value.length > 0 && wholeName.value.match(letters)) {
-        if (wholeName.parentElement.classList.contains(".input-invalid")) {
-            wholeName.parentElement.classList.remove(".input-invalid");
-            wholeName.parentElement.classList.add("input-valid");
-        } else if (!wholeName.parentElement.classList.contains(".input-invalid")) {
-            wholeName.parentElement.classList.add("input-valid");
+        if (wholeNameParent.classList.contains("input-invalid")) {
+            wholeNameParent.classList.remove("input-invalid");
+            wholeNameParent.classList.add("input-valid");
+        } else if (!wholeNameParent.classList.contains(".input-invalid")) {
+            wholeNameParent.classList.add("input-valid");
         }
     } else if (wholeName.value == "" || wholeName.value.match(numbers)) {
-        if (!wholeName.parentElement.classList.contains(".input-invalid")) {
-            wholeName.parentElement.classList.add("input-invalid");
-            let myNewDiv = wholeName.after("* Valid Name Required");
-            return myNewDiv;
+        if (wholeNameParent.classList.contains("input-invalid")) {
+            return;
         } else {
-            return False;
+            wholeName.after("* Valid Name Required");
+            wholeNameParent.classList.add("input-invalid");
         }
     }
 }
+
 // wholeName.parentElement.classList.remove(".input-invalid");
 // wholeName.parentElement.classList.add("input-invalid");
 // let myNewDiv = wholeName.after("* Valid Name Required");
