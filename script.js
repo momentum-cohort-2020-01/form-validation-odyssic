@@ -24,10 +24,11 @@ function nameValidate() {
         // return upperCaseName;
         //
     } else if (wholeName.value == "" || wholeName.value.match(numbers)) {
-        if (parent.classList == "input-invalid") {
+        if (wholeName.parentElement.classList.contains(".input-invalid")) {
             return False;
         } else {
             wholeName.parentElement.classList.add("input-invalid");
+            let myNewDiv = wholeName.after("* Valid Name Required");
         }
         // wholeName.parentElement.classList.remove("input-invalid");
         // wholeName.parentElement.classList.add("input-invalid");
