@@ -16,26 +16,34 @@ const numbers = /^[0-9]+$/;
 
 function nameValidate() {
     const wholeName = document.querySelector("#name");
+    // let upperCaseName = wholeName.value.toUppercase();
 
-    let myNewDiv = wholeName.before("Valid name");
-    let upperCaseName = wholeName.value.toUppercase();
-
-    if (wholeName.value.length > 1) {
+    if (wholeName.value.length > 0 && wholeName.value.match(letters)) {
         wholeName.parentElement.classList.add("input-valid");
-        return upperCaseName;
-        // && (wholeName.value.match(letters))
-    } else {
-        wholeName.parentElement.classList.add("input-invalid");
-        myNewDiv.innerHTML = "*Valid Name Required";
-        alert("Please enter a valid name!");
+
+        // return upperCaseName;
+        //
+    } else if (wholeName.value == "" || wholeName.value.match(numbers)) {
+        if (parent.classList == "input-invalid") {
+            return False;
+        } else {
+            wholeName.parentElement.classList.add("input-invalid");
+        }
+        // wholeName.parentElement.classList.remove("input-invalid");
+        // wholeName.parentElement.classList.add("input-invalid");
+        // let myNewDiv = wholeName.after("* Valid Name Required");
+        //
+        // alert("Please enter a valid name!");
     }
 }
 
 // function carYearValidate() {
-//     const carYear = document.querySelector("#car-year")
-//     if ((carYear.value != "") && ()) {
+//     const carYear = document.querySelector("#car-year");
+//     if (carYear.value.match(numbers)) {
+//         carYear
+//         if ((carYear.value != "") && ()) {
 
-//     }
+//         }
 
 //     carMakeValidate()
 
