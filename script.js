@@ -9,8 +9,9 @@ parkingForm.addEventListener("submit", function(event) {
     carMakeValidate();
     carModelValidate();
     parkingDays();
+
+    validateCreditCard();
     cvv();
-    validateCardNumber();
 });
 // variables for whole document
 
@@ -152,40 +153,55 @@ function carModelValidate() {
     }
 }
 
-// function parkingDateValidate() {
-//     const parkingDate = document.querySelector("#start-date");
-//     const parkingDateParent = parkingDate.parentElement;
+function parkingDateValidate() {
+    const parkingDate = document.querySelector("#start-date");
+    const parkingDateParent = parkingDate.parentElement;
 
-//     if (
-//         parkingDate.value.match(numbers) &&
-//         parkingDate.value > 1900 &&
-//         parkingDate.value < 2021
-//     ) {
-//         if (parkingDateParent.classList.contains("input-invalid")) {
-//             parkingDateParent.classList.remove("input-invalid");
-//             document.querySelector(".validation-message").remove();
-//             parkingDateParent.classList.add("input-valid");
-//         } else if (!parkingDateParent.classList.contains(".input-invalid")) {
-//             parkingDateParent.classList.add("input-valid");
-//         }
-//     } else if (parkingDate.value == "" || parkingDate.value.match(numbers)) {
-//         if (parkingDateParent.classList.contains("input-invalid")) {
-//             return;
-//         } else {
-//             var block_to_insert;
-//             var container_block;
+    var serverDate;
+    var serverOffset;
 
-//             block_to_insert = document.createElement("div");
-//             block_to_insert.innerHTML = "* Valid Start Date Required";
-//             block_to_insert.className = "validation-message";
+    $.get('server/date/url', function(data) {
+        // server returns a json object with a date property.
+        serverDate = data.date;
+        serverOffset = moment(serverDate).diff(new Date());
+    });
 
-//             container_block = document.querySelector("#start-date");
-//             container_block.parentElement.appendChild(block_to_insert);
+    function currentServerDate() {
+        return moment().add('milliseconds', serverOffset);
+    }
 
-//             parkingDateParent.classList.add("input-invalid");
-//         }
-//     }
-// }
+    moment().subtract(1, 'days').format('DD/MM/YYYY')
+
+    if (
+        parkingDate.value.match(numbers) &&
+        parkingDate.value > 1900 &&
+        parkingDate.value < 2021
+    ) {
+        if (parkingDateParent.classList.contains("input-invalid")) {
+            parkingDateParent.classList.remove("input-invalid");
+            document.querySelector(".parking-date-validation-message").remove();
+            parkingDateParent.classList.add("input-valid");
+        } else if (!parkingDateParent.classList.contains(".input-invalid")) {
+            parkingDateParent.classList.add("input-valid");
+        }
+    } else if (parkingDate.value == "" || parkingDate.value.match(numbers)) {
+        if (parkingDateParent.classList.contains("input-invalid")) {
+            return;
+        } else {
+            var block_to_insert;
+            var container_block;
+
+            block_to_insert = document.createElement("div");
+            block_to_insert.innerHTML = "* Valid Start Date Required";
+            block_to_insert.className = "parking-date-validation-message";
+
+            container_block = document.querySelector("#start-date");
+            container_block.parentElement.appendChild(block_to_insert);
+
+            parkingDateParent.classList.add("input-invalid");
+        }
+    }
+}
 
 function parkingDays() {
     const parkingDays = document.querySelector("#days");
@@ -222,8 +238,6 @@ function parkingDays() {
     }
 }
 
-// function creditCard(){}
-
 function cvv() {
     const cvv = document.querySelector("#cvv");
     const cvvParent = cvv.parentElement;
@@ -255,45 +269,6 @@ function cvv() {
     }
 }
 
-function va() {
-    const cvv = document.querySelector("#cvv");
-    const cvvParent = cvv.parentElement;
-
-    if (cvv.value.match(numbers) && cvv.value.length == 3) {
-        if (cvvParent.classList.contains("input-invalid")) {
-            cvvParent.classList.remove("input-invalid");
-            document.querySelector(".validation-message").remove();
-            cvvParent.classList.add("input-valid");
-        } else if (!cvvParent.classList.contains(".input-invalid")) {
-            cvvParent.classList.add("input-valid");
-        }
-    } else if (cvv.value == "" || cvv.value.match(numbers)) {
-        if (cvvParent.classList.contains("input-invalid")) {
-            return;
-        } else {
-            var block_to_insert;
-            var container_block;
-
-            block_to_insert = document.createElement("div");
-            block_to_insert.innerHTML = "* Please enter a valid CVV number!";
-            block_to_insert.className = "validation-message";
-
-            container_block = document.querySelector("#cvv");
-            container_block.parentElement.appendChild(block_to_insert);
-
-            cvvParent.classList.add("input-invalid");
-        }
-    }
-}
-
-function validateCardNumber(number) {
-    const ccnumber = document.querySelector("#credit-card").value;
-    var regex = new RegExp("^[0-9]{16}$");
-    if (!regex.test(ccnumber)) return false;
-
-    return luhnCheck(ccnumber);
-}
-
 function luhnCheck(val) {
     var sum = 0;
     for (var i = 0; i < val.length; i++) {
@@ -307,4 +282,44 @@ function luhnCheck(val) {
         sum += intVal;
     }
     return sum % 10 == 0;
+}
+
+function validateCreditCard() {
+
+
+
+    const ccnumber = document.querySelector("#credit-card");
+    const cvvParent = ccnumber.parentElement;
+
+    var regex = new RegExp("^[0-9]{16}$");
+    if (!regex.test(ccnumber)) return false;
+
+    return luhnCheck(ccnumber.value);
+}
+
+if (luhnCheck(ccnumber.value) == True) {
+    if (ccnumberParent.classList.contains("input-invalid")) {
+        ccnumberParent.classList.remove("input-invalid");
+        document.querySelector(".cc-validation-message").remove();
+        ccnumberParent.classList.add("input-valid");
+    } else if (!ccnumberParent.classList.contains(".input-invalid")) {
+        ccnumberParent.classList.add("input-valid");
+    }
+} else {
+    if (ccnumberParent.classList.contains("input-invalid")) {
+        return;
+    } else {
+        var block_to_insert;
+        var container_block;
+
+        block_to_insert = document.createElement("div");
+        block_to_insert.innerHTML = "* Please enter a valid Credit Card number!";
+        block_to_insert.className = "cc-validation-message";
+
+        container_block = document.querySelector("#credit-card");
+        container_block.parentElement.appendChild(block_to_insert);
+
+        ccnumberParent.classList.add("input-invalid");
+    }
+}
 }
