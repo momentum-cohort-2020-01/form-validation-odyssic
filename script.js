@@ -17,11 +17,13 @@ const numbers = /^[0-9]+$/;
 function nameValidate() {
     const wholeName = document.querySelector("#name");
     const wholeNameParent = wholeName.parentElement;
+
     // let upperCaseName = wholeName.value.toUppercase();
 
     if (wholeName.value.length > 0 && wholeName.value.match(letters)) {
         if (wholeNameParent.classList.contains("input-invalid")) {
             wholeNameParent.classList.remove("input-invalid");
+            wholeName.removeChild("t");
             wholeNameParent.classList.add("input-valid");
         } else if (!wholeNameParent.classList.contains(".input-invalid")) {
             wholeNameParent.classList.add("input-valid");
@@ -30,11 +32,20 @@ function nameValidate() {
         if (wholeNameParent.classList.contains("input-invalid")) {
             return;
         } else {
-            wholeName.after("* Valid Name Required");
+            const div = document.createElement(div);
+            div.classname = "verification";
+            div.innerHTML = "* Valid Name Required";
+            wholeNameParent.appendChild(div);
+
+            // wholeNameParent.appendChild("*Valid Name Required");
+            //   wholeName.after("* Valid Name Required");
+            // wholeName.appendChild("*Valid Name Required");
             wholeNameParent.classList.add("input-invalid");
         }
     }
 }
+
+// Create the inner div before appending to the body
 
 // wholeName.parentElement.classList.remove(".input-invalid");
 // wholeName.parentElement.classList.add("input-invalid");
@@ -96,4 +107,3 @@ function nameValidate() {
 //     } else {
 //         parentDiv.classList.remove("input-valid");
 //         parentDiv.classList.add("input-invalid");
-//     }
