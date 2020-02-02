@@ -23,7 +23,7 @@ function nameValidate() {
     if (wholeName.value.length > 0 && wholeName.value.match(letters)) {
         if (wholeNameParent.classList.contains("input-invalid")) {
             wholeNameParent.classList.remove("input-invalid");
-            wholeName.removeChild(block_to_insert);
+            document.querySelector(".validation-message").remove();
             wholeNameParent.classList.add("input-valid");
         } else if (!wholeNameParent.classList.contains(".input-invalid")) {
             wholeNameParent.classList.add("input-valid");
@@ -37,6 +37,7 @@ function nameValidate() {
 
             block_to_insert = document.createElement("div");
             block_to_insert.innerHTML = "* Valid Name Required";
+            block_to_insert.className = "validation-message";
 
             container_block = document.querySelector("#name");
             container_block.parentElement.appendChild(block_to_insert);
