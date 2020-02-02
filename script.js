@@ -5,10 +5,12 @@ let parkingForm = document.querySelector("#parking-form");
 parkingForm.addEventListener("submit", function(event) {
     event.preventDefault();
     nameValidate();
+    carYearValidate();
     carMakeValidate();
     carModelValidate();
-
     parkingDays();
+    cvv();
+    validateCardNumber();
 });
 // variables for whole document
 
@@ -196,7 +198,7 @@ function parkingDays() {
     ) {
         if (parkingDaysParent.classList.contains("input-invalid")) {
             parkingDaysParent.classList.remove("input-invalid");
-            document.querySelector(".validation-message").remove();
+            document.querySelector(".parking-days-validation-message").remove();
             parkingDaysParent.classList.add("input-valid");
         } else if (!parkingDaysParent.classList.contains(".input-invalid")) {
             parkingDaysParent.classList.add("input-valid");
@@ -209,8 +211,8 @@ function parkingDays() {
             var container_block;
 
             block_to_insert = document.createElement("div");
-            block_to_insert.innerHTML = "* Valid Parking Days Required";
-            block_to_insert.className = "validation-message";
+            block_to_insert.innerHTML = "* Please request between one and 30 days";
+            block_to_insert.className = "parking-days-validation-message";
 
             container_block = document.querySelector("#days");
             container_block.parentElement.appendChild(block_to_insert);
@@ -220,59 +222,89 @@ function parkingDays() {
     }
 }
 
-// function validateParkingDate() {
-//     let parkingDate = document.querySelector("#start-date");
-//     if (parkingDate = date
-//     }
+// function creditCard(){}
 
-// Create the inner div before appending to the body
+function cvv() {
+    const cvv = document.querySelector("#cvv");
+    const cvvParent = cvv.parentElement;
 
-// wholeName.parentElement.classList.remove(".input-invalid");
-// wholeName.parentElement.classList.add("input-invalid");
-// let myNewDiv = wholeName.after("* Valid Name Required");
-//
-// alert("Please enter a valid name!");
+    if (cvv.value.match(numbers) && cvv.value.length == 3) {
+        if (cvvParent.classList.contains("input-invalid")) {
+            cvvParent.classList.remove("input-invalid");
+            document.querySelector(".ccv-validation-message").remove();
+            cvvParent.classList.add("input-valid");
+        } else if (!cvvParent.classList.contains(".input-invalid")) {
+            cvvParent.classList.add("input-valid");
+        }
+    } else if (cvv.value == "" || cvv.value.match(numbers)) {
+        if (cvvParent.classList.contains("input-invalid")) {
+            return;
+        } else {
+            var block_to_insert;
+            var container_block;
 
-// function carYearValidate() {
-//     const carYear = document.querySelector("#car-year");
-//     if (carYear.value.match(numbers)) {
-//         carYear
-//         if ((carYear.value != "") && ()) {
+            block_to_insert = document.createElement("div");
+            block_to_insert.innerHTML = "* Please enter a valid CVV number!";
+            block_to_insert.className = "ccv-validation-message";
 
-//         }
+            container_block = document.querySelector("#cvv");
+            container_block.parentElement.appendChild(block_to_insert);
 
-//invalidates or validates ALL based on input of any kind and length
+            cvvParent.classList.add("input-invalid");
+        }
+    }
+}
 
-// function nameValidate() {
-//     const inputBoxes = document.querySelector("input");
+function va() {
+    const cvv = document.querySelector("#cvv");
+    const cvvParent = cvv.parentElement;
 
-//     for (let inputBox of inputBoxes) {
-//         parent = inputBox.parentElement;
-//         // if (box.value.length = 0) {
-//         //     return false;
-//         if (inputBox.value.length > 0) {
-//             if (!parent.classList.contains("input-valid")) {
-//                 parent.classList.add("input-valid");
-//                 inputBox.value = "";
-//             }
-//         } else {
-//             !parent.classList.contains("input-invalid");
-//             parent.classList.add("input-invalid");
-//             inputBox.value = "Please enter a valid ";
-//         }
-//     }
-// }
+    if (cvv.value.match(numbers) && cvv.value.length == 3) {
+        if (cvvParent.classList.contains("input-invalid")) {
+            cvvParent.classList.remove("input-invalid");
+            document.querySelector(".validation-message").remove();
+            cvvParent.classList.add("input-valid");
+        } else if (!cvvParent.classList.contains(".input-invalid")) {
+            cvvParent.classList.add("input-valid");
+        }
+    } else if (cvv.value == "" || cvv.value.match(numbers)) {
+        if (cvvParent.classList.contains("input-invalid")) {
+            return;
+        } else {
+            var block_to_insert;
+            var container_block;
 
-//Hypothetical (THERE IS NO EMAIL VALIDATE)
+            block_to_insert = document.createElement("div");
+            block_to_insert.innerHTML = "* Please enter a valid CVV number!";
+            block_to_insert.className = "validation-message";
 
-// function validateEmail() {
-//     let emailInput = document.querySelector("#email-input");
-//     let emailAddress = emailInput.value;
-//     let parentDiv = emailInput.parentNode;
+            container_block = document.querySelector("#cvv");
+            container_block.parentElement.appendChild(block_to_insert);
 
-//     if (emailAddress !== "" && emailAddress.contains("@")) {
-//         parentDiv.classList.remove("input-invalid");
-//         parentDiv.classList.add("input-valid");
-//     } else {
-//         parentDiv.classList.remove("input-valid");
-//         parentDiv.classList.add("input-invalid");
+            cvvParent.classList.add("input-invalid");
+        }
+    }
+}
+
+function validateCardNumber(number) {
+    const ccnumber = document.querySelector("#credit-card").value;
+    var regex = new RegExp("^[0-9]{16}$");
+    if (!regex.test(ccnumber)) return false;
+
+    return luhnCheck(ccnumber);
+}
+
+function luhnCheck(val) {
+    var sum = 0;
+    for (var i = 0; i < val.length; i++) {
+        var intVal = parseInt(val.substr(i, 1));
+        if (i % 2 == 0) {
+            intVal *= 2;
+            if (intVal > 9) {
+                intVal = 1 + (intVal % 10);
+            }
+        }
+        sum += intVal;
+    }
+    return sum % 10 == 0;
+}
