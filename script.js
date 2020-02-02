@@ -23,7 +23,7 @@ function nameValidate() {
     if (wholeName.value.length > 0 && wholeName.value.match(letters)) {
         if (wholeNameParent.classList.contains("input-invalid")) {
             wholeNameParent.classList.remove("input-invalid");
-            wholeName.removeChild("t");
+            wholeName.removeChild(block_to_insert);
             wholeNameParent.classList.add("input-valid");
         } else if (!wholeNameParent.classList.contains(".input-invalid")) {
             wholeNameParent.classList.add("input-valid");
@@ -32,18 +32,48 @@ function nameValidate() {
         if (wholeNameParent.classList.contains("input-invalid")) {
             return;
         } else {
-            const div = document.createElement(div);
-            div.classname = "verification";
-            div.innerHTML = "* Valid Name Required";
-            wholeNameParent.appendChild(div);
+            var block_to_insert;
+            var container_block;
+
+            block_to_insert = document.createElement("div");
+            block_to_insert.innerHTML = "* Valid Name Required";
+
+            container_block = document.querySelector("#name");
+            container_block.parentElement.appendChild(block_to_insert);
+
+            // wholeName.innerHTML = "* Valid Name Required";
 
             // wholeNameParent.appendChild("*Valid Name Required");
-            //   wholeName.after("* Valid Name Required");
+            // wholeName.after("* Valid Name Required");
             // wholeName.appendChild("*Valid Name Required");
             wholeNameParent.classList.add("input-invalid");
         }
     }
 }
+
+// carMakeValidate() {
+//         const carName = document.querySelector("car-year");
+//         const carNameParent = wholeName.parentElement;
+
+//         if (wholeName.value.length > 0 && wholeName.value.match(letters)) {
+//             if (wholeNameParent.classList.contains("input-invalid")) {
+//                 wholeNameParent.classList.remove("input-invalid");
+//                 wholeName.removeChild("t");
+//                 wholeNameParent.classList.add("input-valid");
+//             } else if (!wholeNameParent.classList.contains(".input-invalid")) {
+//                 wholeNameParent.classList.add("input-valid");
+//             }
+
+//         }
+
+//     carModelValidate()
+
+// }
+
+// function validateParkingDate() {
+//     let parkingDate = document.querySelector("#start-date");
+//     if (parkingDate = date
+//     }
 
 // Create the inner div before appending to the body
 
@@ -60,17 +90,6 @@ function nameValidate() {
 //         if ((carYear.value != "") && ()) {
 
 //         }
-
-//     carMakeValidate()
-
-//     carModelValidate()
-
-// }
-
-// function validateParkingDate() {
-//     let parkingDate = document.querySelector("#start-date");
-//     if (parkingDate = date
-//     }
 
 //invalidates or validates ALL based on input of any kind and length
 
